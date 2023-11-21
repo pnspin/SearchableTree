@@ -14,9 +14,23 @@ class SearchableNode:
 		self._identity = tuple(identity)
 
 	def appendChild(self, name):
-		newNode = self.tree.createNode(name, self)
+		newNode = self.tree.addNode(name, self)
 		self.children.append(newNode)
 		return newNode
+
+	def upsert(self, name, pathSeparator='.'):
+		"""insert full path (and create necessary nodes) by specifying nodes separates by path separator"""
+		splitted = name.split(".")
+		base = self
+		for element in splitted:
+			if element == self.name:
+				continue
+			elementFullName = tuple(list(base._identity) + [element])
+			match = self.tree.find(elementFullName)
+			if match is None:
+				base = base.appendChild(element)
+			else:
+				base = match
 
 	def traverse(self, level=0):
 		"""downtraverse from node"""
@@ -47,16 +61,16 @@ class SearchableNode:
 
 class SearchableTree:
 	def __init__(self, name="root", NodeClass=SearchableNode):
-		self.root = NodeClass(name, self)
-		self.fullQualifiedIndex = {(name,): self.root}
-		self.index = {(name,): self.root}
+		self._root = NodeClass(name, self)
+		self.fullQualifiedIndex = {(name,): self._root}
+		self.index = {(name,): self._root}
 
-	def getRoot(self):
-		return self.root
+	def root(self):
+		return self._root
 
-	def createNode(self, name, parent):
+	def addNode(self, name, parent):
 		"""to be used by nodes"""
-		node = self.root.__class__(name, self, parent)
+		node = self._root.__class__(name, self, parent)
 		self.fullQualifiedIndex[node._identity] = node
 		self.index[node.name] = node
 		return node
@@ -78,27 +92,13 @@ class SearchableTree:
 		return ret
 
 	def traverse(self):
-		return self.root.traverse()
+		return self._root.traverse()
 
 	def leafs(self):
 		"""get end leafs"""
 		for el in self.traverse():
 			if not el.children:
 				yield el
-
-	def upsert(self, name, pathSeparator='.'):
-		"""insert full path (and create necessary nodes) by specifying nodes separates by path separator"""
-		splitted = name.split(".")
-		base = self.root
-		for element in splitted:
-			if element == self.root.name:
-				continue
-			elementFullName = tuple(list(base._identity) + [element])
-			match = self.fullQualifiedIndex.get(elementFullName)
-			if match is None:
-				base = base.appendChild(element)
-			else:
-				base = match
 
 	def __repr__(self, indent=1, verticalIndent=0):
 		repr = ""

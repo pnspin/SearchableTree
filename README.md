@@ -2,7 +2,8 @@
 
 
 Simple list intended for simplifying traversal & node search
-Does not support deletion
+
+**Does not support deletion**
 
 Example:
 ```python 

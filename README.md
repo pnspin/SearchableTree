@@ -24,7 +24,7 @@ print(tree) #Pretty print tree
 print(tree.find("l112")) #Get node by name
 print(tree.find("root.l1.l11")) #Get node by path
 for el in l2.ancestors(): #Get node ancestors
-print(el)
+	print(el)
 ```
 
 Extend *SearchableNode* to add custom funcionality

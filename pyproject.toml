@@ -1,0 +1,15 @@
+[project]
+name="SearchableTree"
+version="1.0.0"
+description="Simple tree struct with search and traversal utilities"
+readme="README.md"
+authors=[
+	{name="Spin", email="pnspin@gmail.com"}
+]
+
+[project.urls]
+Repository = "https://github.com/pnspin/SearchableTree"
+
+[build-system]
+requires = ["setuptools>=43.0.0"]
+build-backend = "setuptools.build_meta"

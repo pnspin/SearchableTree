@@ -1,23 +1,3 @@
-"""
-	Simple list intended for simplifying traversal & node search
-	Does not support deletion
-	
-	Example:
-	tree = SearchableTree(SearchableNode, "root")
-	root = tree.getRoot()
-	l1 = root.appendChild('l1')
-	l11 = root.appendChild('l11')
-	l12 = root.appendChild('l12')
-	l2 = root.appendChild('l2')
-	l21 = root.appendChild('l21')
-	l22 = root.appendChild('l22')
-	tree.upsert("l1.l11.l111")
-	tree.upsert("l1.l11.l112")
-	for el in root.traverse():
-		print(el)
-
-	print(tree)
-"""
 class SearchableNode:
 	def __init__(self, name, tree, parent=None):
 		self.name = name
@@ -142,22 +122,3 @@ class SearchableTree:
 				formatedRepr += char
 		repr = formatedRepr[::-1].strip()
 		return repr.strip()
-
-tree = SearchableTree("root", SearchableNode)
-root = tree.getRoot()
-l1 = root.appendChild('l1')
-l11 = l1.appendChild('l11')
-l12 = l1.appendChild('l12')
-l2 = root.appendChild('l2')
-l21 = l2.appendChild('l21')
-l22 = l2.appendChild('l22')
-tree.upsert("l1.l11.l111")
-tree.upsert("l1.l11.l112")
-for el in root.traverse():
-	print(el)
-
-print(tree)
-print(tree.find("l112"))
-print(tree.find("root.l1.l11"))
-for el in l2.ancestors():
-	print(el)

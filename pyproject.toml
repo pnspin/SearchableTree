@@ -1,6 +1,6 @@
 [project]
 name="SearchableTree"
-version="1.0.0"
+version="1.0.2"
 description="Simple tree struct with search and traversal utilities"
 readme="README.md"
 authors=[
